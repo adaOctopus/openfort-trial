@@ -9,17 +9,21 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@openfort/openfort-node": "^0.6.78",
+    "@openfort/react": "^0.1.14",
+    "@tanstack/react-query": "^5.90.16",
     "next": "^15.0.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "viem": "^2.43.5",
+    "wagmi": "^2.19.5"
   },
   "devDependencies": {
     "@types/node": "^20.10.6",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
-    "typescript": "^5.3.3",
     "eslint": "^8.56.0",
-    "eslint-config-next": "^15.0.0"
+    "eslint-config-next": "^15.0.0",
+    "typescript": "^5.3.3"
   }
 }
-
