@@ -8,14 +8,26 @@ export default function Home() {
   const [message, setMessage] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
-  const fetchHello = async () => {
+  const createSession = async () => {
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:3001/api/hello');
+      const response = await fetch('/api/session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
       const data = await response.json();
-      setMessage(data.message);
+      if (data.session) {
+        setMessage('Session created successfully!');
+        console.log('Session:', data.session);
+      } else if (data.error) {
+        setMessage(`Error: ${data.error}`);
+      } else {
+        setMessage('Session response received');
+      }
     } catch (error) {
-      setMessage('Error connecting to backend');
+      setMessage('Error creating session');
       console.error('Error:', error);
     } finally {
       setLoading(false);
@@ -41,11 +53,11 @@ export default function Home() {
         <div className="card p-6 rounded-lg border">
           <div className="space-y-4">
             <button
-              onClick={fetchHello}
+              onClick={createSession}
               disabled={loading}
               className="w-full px-6 py-3 bg-foreground text-background rounded-lg font-medium hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? 'Loading...' : 'Call Backend API'}
+              {loading ? 'Loading...' : 'Create Session'}
             </button>
             
             {message && (

@@ -27,6 +27,7 @@ const createSession = async () => {
     
     const data = await response.json();
     console.log('Session:', data.session);
+    
     return data.session;
   } catch (error) {
     console.error('Error:', error);

@@ -1,6 +1,6 @@
 'use client';
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   AuthProvider,
   OpenfortProvider,
@@ -11,17 +11,40 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider, createConfig } from "wagmi";
 import { baseSepolia, sepolia } from "viem/chains";
 
-const config = createConfig(
-  getDefaultConfig({
-    appName: "Openfort Demo App",
-    chains: [baseSepolia, sepolia], // add all the chains you want to support
-    ssr: true,
-  })
-);
+let config: ReturnType<typeof createConfig> | null = null;
 
-const queryClient = new QueryClient();
+if (typeof window !== 'undefined') {
+  config = createConfig(
+    getDefaultConfig({
+      appName: "Openfort Demo App",
+      chains: [baseSepolia, sepolia], // add all the chains you want to support
+      ssr: true,
+    })
+  );
+}
 
 export function Providers({ children }: { children: React.ReactNode }) {
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            staleTime: 60 * 1000,
+          },
+        },
+      })
+  );
+
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted || !config) {
+    return <>{children}</>;
+  }
+
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>

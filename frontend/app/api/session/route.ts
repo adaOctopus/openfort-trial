@@ -3,6 +3,7 @@ import openfort from '@/lib/openfortAdminConfig';
 
 export async function POST() {
   try {
+    
     const session = await openfort.registerRecoverySession(
       process.env.SHIELD_PUBLISHABLE_KEY || "",
       process.env.SHIELD_SECRET_KEY || "",
@@ -10,7 +11,7 @@ export async function POST() {
     );
     
     return NextResponse.json({
-      session: session,
+      session: session
     });
   } catch (error) {
     console.error('Error creating session:', error);
